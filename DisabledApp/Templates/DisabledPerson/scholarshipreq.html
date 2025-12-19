@@ -1,0 +1,92 @@
+{% load static %}
+{% include "DisabledPerson/Header.html" %}
+
+<section class="ftco-section bg-light py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="card shadow-lg p-5 border-0 rounded-4">
+                    <h3 class="mb-4 text-center text-primary fw-bold">Scholarship Application</h3>
+                    <div id="form-message-warning" class="mb-3 text-danger"></div>
+                    
+                    <form action="{% url 'scholarshipreq_process' %}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                        {% csrf_token %}
+                        <input type="hidden" name="scholarship" value="{{scholarship.scholarshipid}}">
+                        <input type="hidden" name="disabledperson" value="{{disabledperson.personid}}">
+                        <input type="hidden" name="institution" value="{{institution.institutionid}}">
+
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label for="student_name" class="form-label fw-semibold">Student Name</label>
+                                <input type="text" class="form-control bg-light border-0" value="{{disabledperson.personname}}" id="student_name" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="dob" class="form-label fw-semibold">Date of Birth</label>
+                                <input type="text" class="form-control bg-light border-0" value="{{disabledperson.dob}}" id="dob" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="disability_type" class="form-label fw-semibold">Disability Type</label>
+                                <input type="text" class="form-control bg-light border-0" value="{{disabledperson.categoryid.categoryname}}" id="disability_type" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="income" class="form-label fw-semibold">Annual Income</label>
+                                <input type="number" class="form-control border" name="income" id="income" min="0" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="scholarshipname" class="form-label fw-semibold">Scholarship Name</label>
+                                <input type="text" class="form-control bg-light border-0" value="{{scholarship.scholarshipname}}" id="scholarshipname" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="accountno" class="form-label fw-semibold">Account Number</label>
+                                <input type="text" class="form-control border" name="accountno" id="accountno" pattern="\d{12}" title="Enter a valid 12-digit number." required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold" for="institution">Institution Name</label>
+                                <select class="form-select border bg-white shadow-sm rounded-3" name="institution" id="institution" required>
+                                    <option value="" disabled selected>-- Select Institution --</option>
+                                    {% for d in institution %}
+                                        <option value="{{ d.institutionid }}">{{ d.institutionname }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="course" class="form-label fw-semibold">Course</label>
+                                <input type="text" class="form-control border" name="course" id="course" required>
+                            </div>
+                            <div class="col-12 text-center mt-4">
+                                <button type="submit" class="btn btn-primary px-5 py-2 rounded-pill shadow-sm">Apply</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function validateForm() {
+        let accountNo = document.getElementById("accountno").value;
+        let income = document.getElementById("income").value;
+        let institution = document.getElementById("institution").value;
+        
+        if (!/\d{12}/.test(accountNo)) {
+            alert("Enter a valid 12-digit account number.");
+            return false;
+        }
+        
+        if (income <= 0) {
+            alert("Income must be a positive number.");
+            return false;
+        }
+        
+        if (institution === "") {
+            alert("Please select an institution.");
+            return false;
+        }
+        
+        return true;
+    }
+</script>
+
+{% include "DisabledPerson/Footer.html" %}

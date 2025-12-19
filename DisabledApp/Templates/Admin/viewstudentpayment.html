@@ -1,0 +1,51 @@
+{% load static %}
+{% include "Admin/Header.html" %}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Payment Details</h4>
+                    <a href="{% url 'export_excel' %}" class="btn btn-light btn-sm">
+                        <i class="mdi mdi-file-excel"></i> Export Excel
+                    </a>
+                </div>
+                <div class="card-body">
+                    {% if payment %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover text-center">
+                            <thead class="bg-dark text-white">
+                                <tr>
+                                    <th>Sl No</th>
+                                    <th>Student Name</th>
+                                    <th>Amount</th>
+                                    <th>Payment Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in payment %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ p.requestid.personid.personname }}</td>
+                                    <td>₹{{ p.amount }}</td>
+                                    <td>{{ p.paymentdate }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-warning text-center">
+                        No payment records available.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+{% include "Admin/Footer.html" %}

@@ -1,0 +1,105 @@
+{% load static %}
+{% include "DisabledPerson/Header.html" %}
+
+<section class="ftco-section bg-light py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="card shadow-lg p-4 border-0 rounded-4">
+                    <h3 class="mb-4 text-center text-primary fw-bold">Booking Details</h3>
+                    <div id="form-message-warning" class="mb-4 text-danger"></div>
+                    
+                    <form action="{% url 'request_process' %}" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        <input type="hidden" name="equipment" value="{{equipment.equipmentid}}">
+                        <input type="hidden" name="disabledperson" value="{{disabledperson.personid}}">
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="date" class="form-label fw-semibold">Requested Date</label>
+                                <input type="date" class="form-control" name="requesteddate" id="date" required>
+                                <div class="invalid-feedback">Please select a valid date.</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="student_name" class="form-label fw-semibold">Student Name</label>
+                                <input type="text" class="form-control bg-light" value="{{disabledperson.personname}}" id="student_name" readonly>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="equipment_name" class="form-label fw-semibold">Equipment Name</label>
+                                <input type="text" class="form-control bg-light" value="{{equipment.equipmentname}}" id="equipment_name" readonly>
+                            </div>
+
+                            <div class="col-md-6 text-center">
+                                <label for="equipment_image" class="form-label fw-semibold">Equipment Image</label>
+                                <div class="d-flex justify-content-center">
+                                    <img src="{{equipment.equipmentimage.url}}" alt="Equipment Image" class="img-fluid rounded shadow-sm" style="max-width: 150px;">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="equipment_desc" class="form-label fw-semibold">Description</label>
+                                <textarea class="form-control bg-light" id="equipment_desc" rows="3" readonly>{{equipment.equipmentdesc}}</textarea>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="amount" class="form-label fw-semibold">Amount (per unit)</label>
+                                <input type="text" class="form-control bg-light" value="{{equipment.amount}}" id="amount" readonly>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="count" class="form-label fw-semibold">Count</label>
+                                <input type="number" name="count" class="form-control" id="count" min="1" required>
+                                <div class="invalid-feedback">Please enter a count greater than 0.</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="totalamount" class="form-label fw-semibold">Total Amount</label>
+                                <input type="text" name="totalamount" class="form-control bg-light" id="totalamount" readonly>
+                            </div>
+
+                            <div class="col-12 text-center mt-4">
+                                <button type="submit" class="btn btn-primary px-5 py-2 rounded-pill shadow">Register</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include "DisabledPerson/Footer.html" %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById("date").setAttribute("min", today);
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var countInput = document.getElementById("count");
+        var totalAmountInput = document.getElementById("totalamount");
+        var equipmentAmount = parseFloat(document.getElementById("amount").value) || 0;
+
+        countInput.addEventListener("input", function () {
+            var count = parseInt(countInput.value) || 0;
+            totalAmountInput.value = (count * equipmentAmount).toFixed(2);
+        });
+    });
+
+    (function () {
+        'use strict';
+        var forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>

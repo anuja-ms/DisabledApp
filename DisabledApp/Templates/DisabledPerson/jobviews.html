@@ -1,0 +1,119 @@
+{% load static %}
+{% include "DisabledPerson/Header.html" %}
+
+<style>
+  /* General Styles */
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+  }
+
+  .container {
+    max-width: 1200px;
+    padding: 20px;
+  }
+
+  /* Job Card Styling */
+  .job-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .job-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .job-image {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+
+  .job-info h4 {
+    color: #28a745;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .job-info p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 8px;
+  }
+
+  .job-card .job-details {
+    text-align: left;
+    margin-top: 10px;
+    padding: 10px;
+    background: #f1f1f1;
+    border-radius: 8px;
+  }
+
+  .apply-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
+  }
+
+  .apply-btn:hover {
+    background-color: #218838;
+  }
+
+  @media (max-width: 768px) {
+    .job-card {
+      margin-bottom: 20px;
+    }
+  }
+</style>
+
+<section class="ftco-section">
+  <div class="container">
+    <div class="row justify-content-center pb-5 mb-3">
+      <div class="col-md-7 heading-section text-center ftco-animate">
+        <h2 class="text-success">Job Vacancies</h2>
+      </div>
+    </div>
+
+    <div class="row">
+      {% for j in job %}
+      <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+        <div class="job-card">
+          <div class="job-image" style="background-image: url('{{ j.jobimage.url }}');"></div>
+          
+          <div class="job-info">
+            <h4>{{ j.jobtitle }}</h4>
+            <div class="job-details">
+              <p><strong>Deadline:</strong> {{ j.deadline }}</p>
+              <p><strong>Contact:</strong> {{ j.contactemail }}</p>
+              <p><strong>Requirements:</strong> {{ j.requirments }}</p>
+              <p>{{ j.jobdesc }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% include "DisabledPerson/Footer.html" %}

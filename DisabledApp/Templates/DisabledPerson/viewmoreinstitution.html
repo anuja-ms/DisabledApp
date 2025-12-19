@@ -1,0 +1,51 @@
+{% load static %}
+{% include "DisabledPerson/Header.html" %}
+
+<section class="ftco-section bg-light py-5">
+    <div class="container">
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-8 text-center">
+                <h2 class="subheading text-primary">Institution Details</h2>
+            </div>
+        </div>
+
+        {% for i in institution %}
+        <div class="row align-items-center shadow-sm bg-white rounded p-4 mb-5">
+            <!-- Institution Image -->
+            <div class="col-md-5 text-center">
+                <img src="{{ i.institutionimage.url }}" 
+                     class="img-fluid rounded border shadow-sm" 
+                     style="width: 100%; max-height: 300px; object-fit: cover;">
+            </div>
+
+            <!-- Institution Details -->
+            <div class="col-md-7">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <h4 class="text-dark">{{ i.institutionname }}</h4>
+
+                        <ul class="list-unstyled">
+                            <li><strong>Register No:</strong> {{ i.regnumber }}</li>
+                            <li><strong>Contact:</strong> {{ i.contactno }}</li>
+                            <li><strong>Email:</strong> {{ i.email }}</li>
+                            <li><strong>Percentage:</strong> {{ i.percentage }}</li>
+                            <li><strong>Description:</strong> {{ i.institutiondesc }}</li>
+                            <li><strong>Website:</strong> <a href="{{ i.websiteurl }}" target="_blank">{{ i.websiteurl }}</a></li>
+                            <li><strong>Category:</strong> {{ i.categoryid.categoryname }}</li>
+                            <li><strong>Location:</strong> {{ i.locationid.locationname }}</li>
+                        </ul>
+
+                        <div class="text-center mt-3">
+                            <a href="{% url 'enquiry' id=i.institutionid %}" class="btn btn-primary btn-lg px-4">
+                                <i class="fas fa-envelope"></i> Enquiry
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% include "DisabledPerson/Footer.html" %}

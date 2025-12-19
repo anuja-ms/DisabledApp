@@ -1,0 +1,74 @@
+{% load static %}
+{% include "DisabledPerson/Header.html" %}
+
+<section class="ftco-section bg-light py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="card shadow-lg border-0">
+                    <div class="card-body p-5">
+                        <h3 class="text-center text-primary mb-4">Enquiry Form</h3>
+
+                        <form action="{% url 'enquiry_process' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="hidden" name="institution" value="{{ institution.institutionid }}">
+                            <input type="hidden" name="disabledperson" value="{{ disabledperson.personid }}">
+
+                            <div class="mb-3">
+                                <label class="form-label">Student Name</label>
+                                <input type="text" class="form-control" value="{{ disabledperson.personname }}" readonly>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Institution Name</label>
+                                <input type="text" class="form-control" value="{{ institution.institutionname }}" readonly>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Enquiry</label>
+                                <textarea class="form-control" name="enquiry" id="enquiry" placeholder="Enter your enquiry here..." rows="4" required pattern="^[A-Z][a-zA-Z\s]*" title="First letter should be capitalized."    
+                                ></textarea>
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">Submit Enquiry</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include "DisabledPerson/Footer.html" %}
+
+<!-- CSS Styling -->
+<style>
+    .card {
+        border-radius: 12px;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 6px rgba(0, 123, 255, 0.2);
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        padding: 12px;
+        font-size: 18px;
+        transition: 0.3s;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+</style>

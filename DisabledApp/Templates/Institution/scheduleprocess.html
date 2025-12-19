@@ -1,0 +1,70 @@
+{% load static %}
+{% include "Institution/Header.html" %}
+
+<section class="ftco-section bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="wrapper">
+                    <div class="row no-gutters">
+                        <div class="col-lg-12 d-flex align-items-stretch">
+                            <div class="contact-wrap w-100 p-md-5 p-4" 
+                                style="background-color: #ffffff; border-radius: 10px; box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);">
+                                <h3 class="text-center mb-5" 
+                                    style="font-size: 28px; font-weight: bold; color: #333;">
+                                    Schedule Interview
+                                </h3>
+
+                                <form action="{% url 'schedule_process' id=enquiry.enquiryid %}" 
+                                    method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="enquiryid" value="{{ enquiry.enquiryid }}" id="enquiryid">
+                                    
+                                    <div class="row">
+                                        <!-- Date Field -->
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="label" for="scheduledate" style="font-weight: bold;">
+                                                    Select Interview Date
+                                                </label>
+                                                <input type="date" class="form-control" name="scheduledate" id="scheduledate" 
+                                                    placeholder="Select Date"
+                                                    style="border-radius: 5px; padding: 10px; font-size: 16px;" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Submit Button -->
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input type="submit" value="Submit" class="btn btn-primary"
+                                                    style="width: 100%; padding: 12px 0; font-size: 18px; border-radius: 5px; 
+                                                    background-color: #007bff; border: none; color: white; cursor: pointer;">
+                                                <div class="submitting"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include "Institution/Footer.html" %}
+
+<!-- JavaScript to Disable Past Dates -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+        var yyyy = today.getFullYear();
+
+        var minDate = yyyy + '-' + mm + '-' + dd;
+        document.getElementById("scheduledate").setAttribute("min", minDate);
+    });
+</script>

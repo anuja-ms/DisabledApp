@@ -1,0 +1,60 @@
+{% load static %}
+{% include "DisabledPerson/Header.html" %}
+<form action="{% url 'payment_process' %}" method="post">
+  {% csrf_token %}
+  <input type="hidden" id="requestid" name="requestid" value="{{payment.requestid}}">
+  <input type="hidden" id="amount" name="amount" value="{{payment.equipmentid.amount}}">
+
+<section style="background-color: #dee1e2;">
+    <div class="container py-5">
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-9 col-lg-7 col-xl-5">
+          <div class="card">
+            <img src="{{ payment.equipmentid.equipmentimage.url }}"
+              class="card-img-top" alt="Black Chair" />
+            <div class="card-body">
+              <div class="card-title d-flex justify-content-between mb-0">
+                <h5><p class="text-muted mb-0">{{ payment.equipmentid.equipmentname }}</p></h5>
+               <h5> <p class="mb-0">${{ payment.equipmentid.amount }}</p></h5>
+              </div>
+            </div>
+            <div class="rounded-bottom bg-body-tertiary">
+              <div class="card-body">
+                <p class="mb-4">Your payment details</p>
+                <div data-mdb-input-init class="form-outline mb-3">
+                  <input type="text" id="formControlLgXM8" class="form-control" value="{{ payment.personid.personname }}" required
+                    placeholder="Name" />
+                  <label class="form-label" for="formControlLgXM8">Card Holder Name</label>
+                </div>
+  
+                <div data-mdb-input-init class="form-outline mb-3">
+                  <input type="text" id="formControlLgXM8" class="form-control"
+                    placeholder="1234 5678 1234 5678" />
+                  <label class="form-label" for="formControlLgXM8">Card Number</label>
+                </div>
+  
+                <div class="row mb-3">
+                  <div class="col-6">
+                    <div data-mdb-input-init class="form-outline">
+                      <input type="password" id="formControlLgExpk8" class="form-control"
+                        placeholder="MM/YYYY" />
+                      <label class="form-label" for="formControlLgExpk8">Expire</label>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div data-mdb-input-init class="form-outline">
+                      <input type="password" id="formControlLgcvv8" class="form-control" placeholder="Cvv" />
+                      <label class="form-label" for="formControlLgcvv8">Cvv</label>
+                    </div>
+                  </div>
+                </div>
+  
+                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-info btn-block">Order now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</form>

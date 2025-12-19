@@ -1,0 +1,88 @@
+{% load static %}
+{% include "Institution/Header.html" %}
+<style>
+    .compact-table {
+        font-size: 12px; /* Reduce font size */
+    }
+    
+    .compact-table th, .compact-table td {
+        padding: 8px 10px; /* Adjust padding for better spacing */
+    }
+    
+    .compact-table th {
+        text-align: center; /* Center-align column headers */
+    }
+    
+    .compact-table img {
+        width: 50px; /* Adjust image size */
+        height: auto; /* Maintain aspect ratio */
+    }
+    
+    .compact-table button {
+        padding: 5px 10px; /* Standardize button size */
+        font-size: 12px; /* Adjust font size of buttons */
+        margin: 3px; /* Add margin for spacing between buttons */
+    }
+    
+    .card-body {
+        padding: 15px; /* Adjust padding for better content spacing */
+    }
+    
+    .table-responsive {
+        max-height: 400px; /* Optional: To enable scrolling in case of a lot of data */
+        overflow-y: auto;
+    }
+
+    .table td, .table th {
+        vertical-align: middle !important; /* Vertically align content in the cells */
+    }
+
+    .btn-sm {
+        font-size: 10px; /* Make buttons slightly smaller */
+    }
+
+    /* Optionally, you can add a hover effect for better UX */
+    .compact-table tr:hover {
+        background-color: #f1f1f1;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Enquiry Details</h4>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered compact-table">
+                        <thead>
+                            <tr>
+                                <th>SlNo</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Contact</th>
+                                <th>Category</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for e in enquiry %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ e.personid.personname }}</td>
+                                <td>{{ e.personid.email }}</td>
+                                <td>{{ e.personid.contactno }}</td>
+                                <td>{{ e.institutionid.categoryid.categoryname }}</td>
+                                <td class="text-center">
+                                    <a href="{% url 'schedule' id=e.enquiryid %}" class="btn btn-warning btn-sm">View More</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br><br><br><br><br>
+{% include "Institution/Footer.html" %}

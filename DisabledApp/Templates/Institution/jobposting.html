@@ -1,0 +1,62 @@
+{% load static %}
+{% include "Institution/Header.html" %}
+<section class="ftco-section bg-light py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow-lg border-0 rounded-3">
+                    <div class="card-body p-5">
+                        <h3 class="card-title text-center text-primary mb-4">Post a Job</h3>
+                        <form action="{% url 'jobreg_process' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                        <input type="hidden" name="institution" value="{{institution.institutionid}}">
+                            
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold" for="institutionname">Job Title</label>
+                                    <input type="text" class="form-control" name="jobtitle" id="jobtitle" placeholder="Enter Job Title" required pattern="^[A-Z][a-zA-Z\s]*" title="First letter should be capitalized."    
+                                    >
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold" for="regnumber">Requirements</label>
+                                    <input type="text" class="form-control" name="requirments" id="requirments" placeholder="Enter Job Requirements" required pattern="^[A-Z][a-zA-Z\s]*" title="First letter should be capitalized."    
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mt-2">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold" for="email">Contact Email</label>
+                                    <input type="email" class="form-control" name="contactemail" id="contactemail" placeholder="Enter Contact email" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold" for="contactno">Application Deadline</label>
+                                    <input type="date" class="form-control" name="deadline" id="deadline" placeholder="Deadline" required>
+                                </div>
+                            </div>
+
+                            <div class="mt-2">
+                                <label class="form-label fw-semibold" for="institutiondesc">Job Description</label>
+                                <textarea class="form-control" name="jobdesc" id="jobdesc" placeholder="Enter Job Description" required pattern="^[A-Z][a-zA-Z\s]*" title="First letter should be capitalized."    
+                                ></textarea>
+                            </div>
+
+                            <div class="mt-2">
+                                <label class="form-label fw-semibold" for="institutionimage">Image</label>
+                                <input type="file" class="form-control" name="jobimage" id="jobimage" required>
+                            </div>
+
+                           
+                            <div class="mt-4 text-center">
+                                <button type="submit" class="btn btn-primary btn-lg w-100">Post Job</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% include "Institution/Footer.html" %}
+
+

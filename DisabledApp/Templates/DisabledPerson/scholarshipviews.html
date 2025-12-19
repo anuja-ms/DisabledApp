@@ -1,0 +1,100 @@
+{% load static %}
+{% include "DisabledPerson/Header.html" %}
+
+<script src="{% static 'Admin/jquery-3.7.1.min.js' %}"></script>
+
+<script>
+    $(document).ready(function () {
+        $.ajaxSetup({
+            headers: { "X-CSRFToken": '{{ csrf_token }}' }
+        });
+
+        $('#categoryid').on('change', function () {
+            var categoryid = $(this).val();
+
+            if (categoryid) {
+                $.ajax({
+                    type: "POST",
+                    url: '{% url "fillscholarship" %}',
+                    data: { cid: categoryid },
+                    dataType: "json",
+                    success: function (data) {
+                        $('#scholarship').empty();
+                        var s = 1;
+
+                        $.each(data, function (key, val) {
+                            let scholarshipview = `{% url "scholarshipreq" 0 %}`.replace('0', val.scholarshipid);
+
+                            var row = `<tr>
+                                <td>${s++}</td>
+                                <td>${val.scholarshipname}</td>
+                                <td>${val.scholarshipdesc}</td>
+                                <td>${val.criteria}</td>
+                                <td>${val.startdate}</td>
+                                <td>${val.enddate}</td>
+                                <td><a href="${val.link}" target="_blank">View</a></td>
+                                <td class="text-center">
+                                    <a href="${scholarshipview}" class="btn btn-primary btn-sm">Apply</a>
+                                </td>
+                            </tr>`;
+
+                            $('#scholarship').append(row);
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("AJAX Error:", xhr.responseText);
+                        alert('Failed to fetch data. Please try again.');
+                    }
+                });
+            } else {
+                $('#scholarship').empty().append(`<tr><td colspan="8" class="text-muted">Select a category to view scholarships</td></tr>`);
+            }
+        });
+    });
+</script>
+
+<div class="container-fluid mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-11">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-body p-5">
+                    <h2 class="card-title text-center text-primary mb-4">Scholarship Details</h2>
+                    
+                    <div class="mb-4">
+                        <label for="categoryid" class="form-label fw-semibold">Select Category:</label>
+                        <select name="categoryid" id="categoryid" class="form-select">
+                            <option value="">-- Choose a Category --</option>
+                            {% for c in category %}
+                            <option value="{{ c.categoryid }}">{{ c.categoryname }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="table-responsive mt-4">
+                        <table class="table table-bordered table-striped text-center">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Eligibility</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Link</th>
+                                    <th>Apply</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scholarship">
+                                <tr>
+                                    <td colspan="8" class="text-muted">Select a category to view scholarships</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "DisabledPerson/Footer.html" %}

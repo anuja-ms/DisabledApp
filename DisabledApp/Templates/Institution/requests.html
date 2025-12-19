@@ -1,0 +1,98 @@
+{% load static %}
+{% include "Institution/Header.html" %}
+
+<section class="ftco-section bg-light py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="card shadow-lg p-4 border-0 rounded-3">
+                    <h3 class="mb-4 text-center text-primary">Booking Details</h3>
+                    <div id="form-message-warning" class="mb-4 text-danger"></div>
+                    
+                    <form action="{% url 'requests_process' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="equipment" value="{{equipment.equipmentid}}">
+                        <input type="hidden" name="institution" value="{{institution.institutionid}}">
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="date" class="form-label fw-semibold">Requested Date</label>
+                                <input type="date" class="form-control" name="requesteddate" id="date" required readonly onfocus="this.removeAttribute('readonly');">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="institution_name" class="form-label fw-semibold">Institution Name</label>
+                                <input type="text" class="form-control bg-light" value="{{institution.institutionname}}" id="institutionname" readonly>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="equipment_name" class="form-label fw-semibold">Equipment Name</label>
+                                <input type="text" class="form-control bg-light" value="{{equipment.equipmentname}}" id="equipment_name" readonly>
+                            </div>
+
+                            <div class="col-md-6 text-center">
+                                <label for="equipment_image" class="form-label fw-semibold">Equipment Image</label>
+                                <div class="d-flex justify-content-center">
+                                    <img src="{{equipment.equipmentimage.url}}" alt="Equipment Image" class="img-fluid rounded shadow-sm" style="max-width: 150px;">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="equipment_desc" class="form-label fw-semibold">Description</label>
+                                <textarea class="form-control bg-light" id="equipment_desc" rows="3" readonly>{{equipment.equipmentdesc}}</textarea>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="amount" class="form-label fw-semibold">Amount</label>
+                                <input type="text" class="form-control bg-light" value="{{equipment.amount}}" id="amount" readonly>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="amount" class="form-label fw-semibold">Count</label>
+                                <input type="number" name="count" class="form-control bg-light" id="count" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="amount" class="form-label fw-semibold">Total Amount</label>
+                                <input type="number" name="totalamount" class="form-control bg-light" id="totalamount" readonly>
+                            </div>
+
+                            <div class="col-12 text-center mt-4">
+                                <button type="submit" class="btn btn-primary px-5 py-2 rounded-pill shadow">Register</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include "Institution/Footer.html" %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+        var yyyy = today.getFullYear();
+
+        var minDate = yyyy + '-' + mm + '-' + dd;
+        var dateInput = document.getElementById("date");
+
+        dateInput.setAttribute("min", minDate);
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var countInput = document.getElementById("count");
+        var totalAmountInput = document.getElementById("totalamount");
+        var equipmentAmount = parseFloat(document.getElementById("amount").value) || 0;
+
+        countInput.addEventListener("input", function() {
+            var count = parseInt(countInput.value) || 0;
+            totalAmountInput.value = count * equipmentAmount;
+        });
+    });
+</script>
+

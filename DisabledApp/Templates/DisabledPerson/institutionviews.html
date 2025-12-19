@@ -1,0 +1,183 @@
+{% load static %}
+{% include "DisabledPerson/Header.html" %}
+
+<section class="container py-5">
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-8 text-center">
+            <h2 class="subheading text-primary">Find Institutions</h2>
+        </div>
+    </div>
+
+    <div class="card shadow-sm p-4">
+        <div class="row">
+            <!-- Category Dropdown -->
+            <div class="col-md-4">
+                <label for="categoryid" class="form-label">Select Category</label>
+                <select name="category_id" id="categoryid" class="form-control">
+                    <option value="">Select Category</option>
+                    {% for c in category %}
+                        <option value="{{ c.categoryid }}">{{ c.categoryname }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- District Dropdown -->
+            <div class="col-md-4">
+                <label for="districts" class="form-label">Select District</label>
+                <select name="district_id" id="districts" class="form-control">
+                    <option value="">Select District</option>
+                    {% for d in districts %}
+                        <option value="{{ d.district_id }}">{{ d.district_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Location Dropdown -->
+            <div class="col-md-4">
+                <label for="location" class="form-label">Select Location</label>
+                <select name="locationid" id="location" class="form-control">
+                    <option value="">Select Location</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Section -->
+    <div class="table-responsive mt-4">
+        <table class="table table-hover table-striped table-bordered" id="institutions-table" style="display:none;">
+            <thead class="thead-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Institution Name</th>
+                    <th>Contact</th>
+                    <th>Email</th>
+                    <th>Percentage</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="institutions">
+                <!-- Dynamic rows will be added here -->
+            </tbody>
+        </table>
+    </div>
+</section>
+
+{% include "DisabledPerson/Footer.html" %}
+
+<!-- jQuery Script -->
+<script src="{% static 'Admin/jquery-3.7.1.min.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        $.ajaxSetup({ headers: { "X-CSRFToken": '{{csrf_token}}' } });
+
+        function checkSelections() {
+            let categoryid = $('#categoryid').val();
+            let districtid = $('#districts').val();
+            let locationid = $('#location').val();
+            if (categoryid && districtid && locationid) {
+                $('#institutions-table').show();
+            } else {
+                $('#institutions-table').hide();
+            }
+        }
+
+        // Fetch Locations when District changes
+        $('#districts').change(function () {
+            let district_id = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: '{% url "filllocation" %}',
+                data: { did: district_id },
+                dataType: "json",
+                success: function (data) {
+                    $('#location').empty().append('<option value="">Select Location</option>');
+                    $.each(data, function (key, val) {
+                        $('#location').append('<option value="'+val.locationid+'">'+val.locationname+'</option>');
+                    });
+                    checkSelections();
+                }
+            });
+        });
+
+        // Fetch Institutions when Location changes
+        $('#location').change(function () {
+            let locationid = $(this).val();
+            let categoryid = $('#categoryid').val();
+
+            if (locationid && categoryid) {
+                $.ajax({
+                    type: "POST",
+                    url: '{% url "fillinstitutions" %}',
+                    data: { sid: locationid, categoryid: categoryid },
+                    dataType: "json",
+                    success: function (data) {
+                        $('#institutions').empty();
+                        let s = 1;
+                        $.each(data, function (key, val) {
+                            let singleviewurl = '{% url "viewmoreinstitution" 0 %}'.replace('0', val.institutionid);
+                            $('#institutions').append(`
+                                <tr>
+                                    <td>${s++}</td>
+                                    <td>${val.institutionname}</td>
+                                    <td>${val.contactno}</td>
+                                    <td>${val.email}</td>
+                                    <td>${val.percentage}</td>
+                                    <td class="text-center">
+                                        <a href="${singleviewurl}" class="btn btn-primary btn-sm">View More</a>
+                                    </td>
+                                </tr>
+                            `);
+                        });
+                    }
+                });
+            } else {
+                $('#institutions').empty();
+            }
+
+            checkSelections();
+        });
+
+        $('#categoryid').change(function () {
+            checkSelections();
+        });
+    });
+</script>
+
+<!-- CSS Styling -->
+<style>
+    .form-label {
+        font-weight: bold;
+        color: #007bff;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        transition: 0.3s ease-in-out;
+    }
+
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+    }
+
+    .table {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        transition: 0.3s;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+</style>

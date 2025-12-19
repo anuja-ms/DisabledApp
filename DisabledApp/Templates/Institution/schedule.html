@@ -1,0 +1,126 @@
+{% load static %}
+{% include "Institution/Header.html" %}
+
+<section class="ftco-section bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="wrapper">
+                    <div class="row no-gutters">
+                        <div class="col-lg-8 col-md-7 order-md-last d-flex align-items-stretch">
+                            <div class="contact-wrap w-100 p-md-5 p-4">
+                                <h3 class="mb-4">Enquiry Details</h3>
+                                <div id="form-message-warning" class="mb-4"></div>
+
+                                <form action="" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+
+                                    <div class="row">
+                                        <!-- Name -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="label" for="name">Name</label>
+                                                <input type="text" class="form-control" value="{{ enquiry.personid.personname }}" name="name" placeholder="Name" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Contact Number -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="label" for="contactno">Contact Number</label>
+                                                <input type="text" class="form-control" value="{{ enquiry.personid.contactno }}" name="contactno" placeholder="Contact Number" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Email -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="label" for="email">Email</label>
+                                                <input type="email" class="form-control" value="{{ enquiry.personid.email }}" name="email" placeholder="Email" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Address -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="label" for="address">Address</label>
+                                                <input type="text" class="form-control" value="{{ enquiry.personid.address }}" name="address" placeholder="Address" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Enquiry Text -->
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="label" for="enquiry">Enquiry</label>
+                                                <textarea class="form-control" name="enquiry" placeholder="Your enquiry here" rows="4" required>{{ enquiry.enquiry }}</textarea>
+                                            </div>
+                                        </div>
+
+                                        <!-- Institution Name -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="label" for="institution">Institution Name</label>
+                                                <input type="text" class="form-control" value="{{ enquiry.institutionid.institutionname }}" name="institution" placeholder="Institution Name" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Disability Percentage -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="label" for="percentage">Disability Percentage</label>
+                                                <input type="text" class="form-control" value="{{ enquiry.personid.percentage }}" name="percentage" placeholder="Disability Percentage" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Disability Details -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="label" for="disabilitydetails">Disability Details</label>
+                                                <input type="text" class="form-control" value="{{ enquiry.personid.disabilitydetails }}" name="disabilitydetails" placeholder="Disability Details" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Disabled Person Name -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="label" for="disabledname">Disabled Person Name</label>
+                                                <input type="text" class="form-control" value="{{ enquiry.personid.pname }}" name="disabledname" placeholder="Disabled Person's Name" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Date of Birth -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="label" for="dob">Date Of Birth</label>
+                                                <input type="text" class="form-control" value="{{ enquiry.personid.dob }}" name="dob" placeholder="Date of Birth" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- ID Proof Image -->
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label class="label" for="idproof">ID Proof</label>
+                                                <img src="{{ enquiry.personid.idproof.url }}" alt="ID Proof" class="img-fluid">
+                                            </div>
+                                        </div>
+
+                                        <!-- Submit Button -->
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                    <a href="{% url 'scheduleprocess' id=enquiry.enquiryid %}" class="btn btn-warning btn-sm">Accept</a>
+                                                <a href="{% url 'enquiryreject' id=enquiry.enquiryid %}" onclick="return confirm('Are you sure you want to reject this enquiry?')" class="btn btn-danger btn-sm">Reject</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include "Institution/Footer.html" %}

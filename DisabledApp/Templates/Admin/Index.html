@@ -1,0 +1,167 @@
+{% include "Admin/Header.html" %}
+
+<!-- Ensure Chart.js is loaded -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    /* Ensures the page layout pushes the footer to the bottom */
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        margin: 0;
+    }
+
+    .content {
+        flex: 1; /* Allows the content to expand and push the footer down */
+        padding: 20px;
+    }
+
+    .chart-wrapper {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+        min-height: 80vh; /* Ensures enough space before the footer */
+    }
+
+    .chart-container {
+        flex: 1;
+        min-width: 300px;
+        text-align: center;
+        padding: 20px;
+    }
+
+    /* Ensure canvas has a defined height to prevent rendering issues */
+    canvas {
+        max-width: 100%;
+        height: 300px !important;
+    }
+</style>
+
+<div class="content">
+    <h2>Admin Dashboard</h2>
+
+    <div class="chart-wrapper">
+        <!-- Pie Chart Container -->
+        <div class="chart-container">
+            <h3>Disabled Person Categories</h3>
+            <canvas id="pieChart"></canvas>
+        </div>
+
+        <!-- Bar Chart Container -->
+        <div class="chart-container">
+            <h3>Enquiry-wise Institutions</h3>
+            <canvas id="barChart"></canvas>
+        </div>
+    </div>
+</div>
+</div>
+<!-- JSON Data for Charts -->
+<script type="application/json" id="pie-labels">{{ pie_labels|safe }}</script>
+<script type="application/json" id="pie-data">{{ pie_data|safe }}</script>
+
+<script type="application/json" id="bar-labels">{{ bar_labels|safe }}</script>
+<script type="application/json" id="bar-data">{{ bar_data|safe }}</script>
+
+<script>
+    let pieChart, barChart;
+
+    document.addEventListener("DOMContentLoaded", function () {
+        console.log("Initializing Charts...");
+
+        const pieCtx = document.getElementById('pieChart')?.getContext('2d');
+        const barCtx = document.getElementById('barChart')?.getContext('2d');
+
+        if (!pieCtx || !barCtx) {
+            console.error("Canvas elements not found.");
+            return;
+        }
+
+        // Check JSON data before parsing
+        try {
+            const pieLabels = JSON.parse(document.getElementById('pie-labels').textContent);
+            const pieData = JSON.parse(document.getElementById('pie-data').textContent);
+            const barLabels = JSON.parse(document.getElementById('bar-labels').textContent);
+            const barData = JSON.parse(document.getElementById('bar-data').textContent);
+
+            console.log("Pie Labels:", pieLabels);
+            console.log("Pie Data:", pieData);
+            console.log("Bar Labels:", barLabels);
+            console.log("Bar Data:", barData);
+
+            // Pie Chart Initialization
+            pieChart = new Chart(pieCtx, {
+                type: 'pie',
+                data: {
+                    labels: pieLabels,
+                    datasets: [{
+                        data: pieData,
+                        backgroundColor: ['#FF5733', '#3498DB', '#2ECC71', '#F1C40F', '#9B59B6'],
+                        hoverBackgroundColor: ['#E64A19', '#2980B9', '#27AE60', '#F39C12', '#8E44AD'],
+                        borderWidth: 2,
+                        borderColor: '#fff',
+                        hoverOffset: 15
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+
+            // Bar Chart Initialization
+            barChart = new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: barLabels,
+                    datasets: [{
+                        label: 'Total Enquiries',
+                        data: barData,
+                        backgroundColor: ['rgba(76, 175, 80, 0.7)', 'rgba(33, 150, 243, 0.7)', 'rgba(255, 193, 7, 0.7)', 'rgba(244, 67, 54, 0.7)'],
+                        borderColor: ['rgba(76, 175, 80, 1)', 'rgba(33, 150, 243, 1)', 'rgba(255, 193, 7, 1)', 'rgba(244, 67, 54, 1)'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+
+        } catch (error) {
+            console.error("Error parsing JSON data:", error);
+        }
+    });
+
+    function updateCharts() {
+        fetch("/get_chart_data")  // Replace with your actual API endpoint
+            .then(response => response.json())
+            .then(data => {
+                console.log("Updated Data:", data);
+
+                // Update Pie Chart
+                pieChart.data.labels = data.pie_labels;
+                pieChart.data.datasets[0].data = data.pie_data;
+                pieChart.update();
+
+                // Update Bar Chart
+                barChart.data.labels = data.bar_labels;
+                barChart.data.datasets[0].data = data.bar_data;
+                barChart.update();
+            })
+            .catch(error => console.error("Error fetching data:", error));
+    }
+</script>
+{% include 'Admin/Footer.html' %}
+

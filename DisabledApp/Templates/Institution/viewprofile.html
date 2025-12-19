@@ -1,0 +1,48 @@
+{% load static %}
+{% include "Institution/Header.html" %}
+
+<section class="ftco-section bg-light py-4">
+    <div class="container">
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-8 text-center">
+                <h3 class="subheading text-primary fw-bold">Profile</h3>
+            </div>
+        </div>
+
+        <div class="row align-items-center shadow-sm bg-white rounded p-3">
+            <!-- Institution Image -->
+            <div class="col-md-4 text-center">
+                <img src="{{ i.institutionimage.url }}" 
+                     class="img-fluid rounded border shadow-sm" 
+                     style="width: 100%; max-height: 250px; object-fit: cover;">
+            </div>
+
+            <!-- Institution Details -->
+            <div class="col-md-8">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <h5 class="text-dark fw-bold">{{ i.institutionname }}</h5>
+                        <hr>
+                        <ul class="list-group list-group-flush small">
+                            <li class="list-group-item"><strong>Register No:</strong> {{ i.regnumber }}</li>
+                            <li class="list-group-item"><strong>Contact:</strong> {{ i.contactno }}</li>
+                            <li class="list-group-item"><strong>Email:</strong> {{ i.email }}</li>
+                            <li class="list-group-item"><strong>Percentage:</strong> {{ i.percentage }}</li>
+                            <li class="list-group-item"><strong>Description:</strong> {{ i.institutiondesc }}</li>
+                            <li class="list-group-item"><strong>Website:</strong> <a href="{{ i.websiteurl }}" target="_blank">{{ i.websiteurl }}</a></li>
+                            <li class="list-group-item"><strong>Category:</strong> {{ i.categoryid.categoryname }}</li>
+                            <li class="list-group-item"><strong>Location:</strong> {{ i.locationid.locationname }}</li>
+                        </ul>
+                        <div class="text-center mt-3">
+                            <a href="{% url 'editprofile' id=i.institutionid %}" class="btn btn-primary btn-sm px-3">
+                                <i class="fas fa-edit"></i> Edit Profile
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include "Institution/Footer.html" %}

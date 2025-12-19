@@ -1,0 +1,73 @@
+{% include 'Admin/Header.html' %}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h3 class="card-title text-center text-primary mb-4">Edit Equipment</h3>
+
+                    <form action="{% url 'editequipment' equ.equipmentid %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <!-- Equipment Name -->
+                        <div class="form-group mb-3">
+                            <label class="form-label">Equipment Name</label>
+                            <input type="text" name="equipmentname" value="{{ equ.equipmentname }}" 
+                                   class="form-control" placeholder="Enter equipment name" required pattern="^[A-Z][a-zA-Z\s]*" title="First letter should be capitalized."    
+                                   >
+                        </div>
+
+                        <!-- Equipment Description -->
+                        <div class="form-group mb-3">
+                            <label class="form-label">Equipment Description</label>
+                            <textarea name="equipmentdesc" class="form-control" rows="3" 
+                                      placeholder="Enter equipment description" required>{{ equ.equipmentdesc }}</textarea>
+                        </div>
+
+                        <!-- Stock -->
+                        <div class="form-group mb-3">
+                            <label class="form-label">Stock Quantity</label>
+                            <input type="number" name="equipmentstock" class="form-control" 
+                                   value="{{ equ.equipmentstock }}" placeholder="Enter available stock" required>
+                        </div>
+
+                        <!-- Amount -->
+                        <div class="form-group mb-3">
+                            <label class="form-label">Amount (₹)</label>
+                            <input type="number" name="amount" class="form-control" 
+                                   value="{{ equ.amount }}" placeholder="Enter equipment price" required>
+                        </div>
+
+                        <!-- Image Upload -->
+                        <div class="form-group mb-3">
+                            <label class="form-label">Current Image</label>
+                            <div>
+                                <img src="/images/{{ equ.equipmentimage }}" 
+                                     class="rounded border shadow-sm img-thumbnail" 
+                                     style="width: 120px; height: 120px; object-fit: cover;">
+                            </div>
+                            <input type="hidden" name="oldimage" value="{{ equ.equipmentimage }}">
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="form-label">Upload New Image (Optional)</label>
+                            <input type="file" name="equipmentimage" class="form-control">
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Update Equipment
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+{% include 'Admin/Footer.html' %}
+

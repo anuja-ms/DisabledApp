@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Life Coach - Free Bootstrap 4 Template by Colorlib</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'DisabledPerson/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'DisabledPerson/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'DisabledPerson/css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'DisabledPerson/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'DisabledPerson/css/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'DisabledPerson/css/style.css' %}">
+  </head>
+  <body>
+
+    <div class="wrap">
+      <!-- Top Bar with Phone and Social Media Links -->
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p class="mb-0 phone"><span class="fa fa-phone"></span> <a href="tel:+001234567">+00 1234 567</a></p>
+          </div>
+          <div class="col d-flex justify-content-end">
+            <div class="social-media">
+              <p class="mb-0 d-flex">
+                <a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-facebook"><i class="sr-only">Facebook</i></span></a>
+                <a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-twitter"><i class="sr-only">Twitter</i></span></a>
+                <a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-instagram"><i class="sr-only">Instagram</i></span></a>
+                <a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-dribbble"><i class="sr-only">Dribbble</i></span></a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navbar Section -->
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">Disabled<span>App</span></a>
+        <!-- Search Form -->
+        <!-- <form action="#" class="searchform order-sm-start order-lg-last">
+          <div class="form-group d-flex">
+            <input type="text" class="form-control pl-3" placeholder="Search">
+            <button type="submit" class="form-control search"><span class="fa fa-search"></span></button>
+          </div>
+        </form> -->
+        <!-- Navbar Toggle Button for Mobile View -->
+        <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="fa fa-bars"></span> Menu
+        </button> -->
+        <!-- Navbar Links -->
+        <div class="collapse navbar-collapse" id="ftco-nav">
+          <ul class="navbar-nav m-auto">
+            <li class="nav-item active"><a href="{% url 'Index' %}" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="{% url 'institutionviews' %}" class="nav-link">Institutions</a></li>
+            <li class="nav-item"><a href="{% url 'scheduledetails' %}" class="nav-link">Schedule</a></li>
+            <li class="nav-item"><a href="{% url 'equipmentviews' %}" class="nav-link">Equipments</a></li>
+            <li class="nav-item"><a href="{% url 'jobviews' %}" class="nav-link">Vacancies</a></li>
+
+            <li class="nav-item"><a href="{% url 'requestdetailsview' %}" class="nav-link">RequestDetails</a></li>
+
+            <li class="nav-item dropdown">
+              <a href="{% url 'scholarshipviews' %}" class="nav-link dropdown-toggle" id="scholarshipDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Scholarships
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="scholarshipDropdown">
+                  <li><a href="{% url 'scholarshipreqdetails' %}" class="dropdown-item">My Scholarship</a></li>
+              </ul>
+          </li>
+          
+
+            <li class="nav-item"><a href="{% url 'profileview' %}" class="nav-link">Profile</a></li>
+
+            
+            <!-- Dropdown Menu -->
+            <!-- <div class="nav-item dropdown">
+              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Registrations</a>
+              <div class="dropdown-menu rounded-0 m-0">
+                <a href="{% url 'institutionreg' %}" class="dropdown-item">Institution Registration</a>
+                <a href="{% url 'disabledpersonreg' %}" class="dropdown-item">DisabledPerson Registration</a>
+              </div>
+            </div> -->
+
+            <li class="nav-item"><a href="{% url 'Logout' %}" class="nav-link">LogOut</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Add your content here -->
+    
+  </body>
+</html>

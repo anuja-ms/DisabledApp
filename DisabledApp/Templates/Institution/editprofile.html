@@ -1,0 +1,107 @@
+{% include 'Institution/Header.html' %}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow rounded">
+                <div class="card-body px-4 py-3">
+                    <h3 class="card-title text-center text-primary mb-3">Edit Profile</h3>
+
+                    <form action="{% url 'editprofile' iob.institutionid %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            <!-- Institution Name -->
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Institution Name</label>
+                                <input type="text" name="institutionname" value="{{ iob.institutionname }}" 
+                                       class="form-control" required pattern="^[A-Z][a-zA-Z\s]*" title="First letter should be capitalized."    
+                                       >
+                            </div>
+
+                            <!-- Register Number -->
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Register Number</label>
+                                <input type="text" name="regnumber" value="{{ iob.regnumber }}" 
+                                       class="form-control" required>
+                            </div>
+
+                            <!-- Contact -->
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Contact</label>
+                                <input type="text" name="contactno" value="{{ iob.contactno }}" 
+                                       class="form-control" required>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Email</label>
+                                <input type="email" name="email" value="{{ iob.email }}" 
+                                       class="form-control" required>
+                            </div>
+
+                            <!-- Percentage -->
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Percentage</label>
+                                <input type="text" name="percentage" value="{{ iob.percentage }}" 
+                                       class="form-control" required>
+                            </div>
+
+                            <!-- Website URL -->
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Website URL</label>
+                                <input type="url" name="websiteurl" value="{{ iob.websiteurl }}" 
+                                       class="form-control" required>
+                            </div>
+
+                            <!-- Category Selection -->
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Category</label>
+                                <select name="categoryid" class="form-control" required>
+                                    <option value="">Select Category</option>
+                                    {% for c in category %}
+                                        <option value="{{ c.categoryid }}" {% if iob.categoryid_id == c.categoryid %}selected{% endif %}>{{ c.categoryname }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Institution Description -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Institution Description</label>
+                            <textarea name="institutiondesc" class="form-control" rows="2" required>{{ iob.institutiondesc }}</textarea>
+                        </div>
+
+                        <!-- Institution Image -->
+                        <div class="mb-3 text-center">
+                            <label class="form-label fw-bold">Current Institution Image</label>
+                            <div class="d-flex justify-content-center">
+                                <img src="/images/{{ iob.institutionimage }}" 
+                                     class="rounded border shadow-sm" 
+                                     style="width: 150px; height: 150px; object-fit: cover;">
+                            </div>
+                            <input type="hidden" name="oldimage" value="{{ iob.institutionimage }}">
+                        </div>
+
+                        <!-- New Image Upload -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Upload New Image</label>
+                            <input type="file" name="institutionimage" class="form-control">
+                            <small class="text-muted">Leave blank to keep the current image.</small>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary px-4">
+                                <i class="fas fa-save"></i> Update Profile
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'Institution/Footer.html' %}

@@ -1,0 +1,32 @@
+{% load static %}
+{% include "Admin/Header.html" %}
+      <div class="row">
+        <div class="col-lg-6 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Search Category</h4>
+              <!-- <p class="card-description"> Add class <code>.table</code>
+              </p> -->
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Sl No</th>
+                    <th>District Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for d in district %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ d.district_name }}</td>
+                    <td><a href="{% url 'deletedistrict' districtid=d.district_id %}"
+                    onclick="return confirm('Do you want to Delete?')"
+                    class="btn btn-danger">Delete</a></td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+{% include "Admin/Footer.html" %}

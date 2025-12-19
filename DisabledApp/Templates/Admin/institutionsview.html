@@ -1,0 +1,208 @@
+{% load static %}
+{% include "Admin/Header.html" %}
+
+<style>
+  /* Premium Glassmorphic Style */
+  body {
+    background: linear-gradient(135deg, #eceff1, #cfd8dc);
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .card {
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+  }
+
+  .card-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  /* Table Styling */
+  .table-container {
+    overflow-x: auto;
+    border-radius: 10px;
+  }
+
+  .custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .custom-table th {
+    background: linear-gradient(135deg, #007bff, #00c6ff);
+    color: white;
+    text-transform: uppercase;
+    padding: 12px;
+    text-align: center;
+  }
+
+  .custom-table td {
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+  }
+
+  .custom-table tbody tr {
+    transition: background 0.3s ease;
+  }
+
+  .custom-table tbody tr:hover {
+    background: #f1f1f1;
+  }
+
+  /* Image */
+  .custom-table img {
+    width: 60px;
+    height: 40px;
+    border-radius: 5px;
+    object-fit: cover;
+    transition: transform 0.3s;
+  }
+
+  .custom-table img:hover {
+    transform: scale(1.1);
+  }
+
+  /* Buttons */
+  .btn-sm {
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background 0.3s ease;
+  }
+
+  .btn-success {
+    background: #28a745;
+    color: white;
+  }
+
+  .btn-success:hover {
+    background: #218838;
+  }
+
+  .btn-danger {
+    background: #dc3545;
+    color: white;
+  }
+
+  .btn-danger:hover {
+    background: #c82333;
+  }
+
+  /* Status Badges */
+  .badge {
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .badge-warning {
+    background: #ffc107;
+    color: #212529;
+  }
+
+  .badge-success {
+    background: #28a745;
+    color: white;
+  }
+
+  .badge-danger {
+    background: #dc3545;
+    color: white;
+  }
+</style>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-12">
+      <div class="card">
+        <h4 class="card-title">Institution Details</h4>
+        <div class="table-container">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Institution</th>
+                <th>Reg No</th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>Website</th>
+                <th>District</th>
+                <th>Location</th>
+                <th>Description</th>
+                <th>Percentage</th>
+                <th>Image</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in institution %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ i.institutionname }}</td>
+                <td>{{ i.regnumber }}</td>
+                <td>{{ i.email }}</td>
+                <td>{{ i.contactno }}</td>
+                <td>
+                  <a href="{{ i.websiteurl }}" target="_blank">{{ i.websiteurl|truncatechars:20 }}</a>
+                </td>
+                <td>{{ i.locationid.district_id.district_name }}</td>
+                <td>{{ i.locationid.locationname }}</td>
+                <td>{{ i.institutiondesc|truncatechars:50 }}</td>
+                <td>{{ i.percentage }}</td>
+                <td>
+                  <img src="{{ i.institutionimage.url }}" alt="Institution Image">
+                </td>
+                <td>{{ i.categoryid.categoryname }}</td>
+                <td>
+                  <span class="badge {% if i.loginid.status == 'Pending' %}badge-warning{% elif i.loginid.status == 'Accepted' %}badge-success{% else %}badge-danger{% endif %}">
+                    {{ i.loginid.status }}
+                  </span>
+                </td>
+                <td>
+                  <a href="{% url 'institutionaccept' loginid=i.loginid_id %}" title="Accept">
+                    <button class="btn btn-success btn-sm">
+                      <i class="fas fa-check"></i> Accept
+                    </button>
+                  </a>
+                  <a href="{% url 'institutionreject' loginid=i.loginid_id %}" onclick="return confirm('Are you sure you want to reject this institution?')" title="Reject">
+                    <button class="btn btn-danger btn-sm">
+                      <i class="fas fa-times"></i> Reject
+                    </button>
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+{% include "Admin/Footer.html" %}

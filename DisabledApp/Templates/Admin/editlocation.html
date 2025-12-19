@@ -1,0 +1,34 @@
+{% include 'Admin/Header.html' %}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3 class="mb-0">Edit Location</h3>
+                </div>
+                <div class="card-body">
+                    <form action="{% url 'editlocation' loc.locationid %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="districtname" class="form-label">District Name</label>
+                            <input type="text" name="districtname" id="districtname" value="{{loc.district_id.district_name}}" class="form-control" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="locationname" class="form-label">Location Name</label>
+                            <input type="text" name="locationname" id="locationname" value="{{loc.locationname}}" class="form-control" required pattern="^[A-Z][a-zA-Z\s]*" title="First letter should be capitalized."    
+                            >
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+{% include 'Admin/Footer.html' %}

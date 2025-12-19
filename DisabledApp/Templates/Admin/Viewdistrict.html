@@ -1,0 +1,45 @@
+{% load static %}
+{% include "Admin/Header.html" %}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">District Details</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover text-center">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Sl No</th>
+                                    <th>District Name</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for d in district %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ d.district_name }}</td>
+                                    <td>
+                                        <a href="{% url 'editdistrict' districtid=d.district_id %}" class="btn btn-warning btn-sm">Edit</a>
+                                        <a href="{% url 'deletedistrict' districtid=d.district_id %}" 
+                                           onclick="return confirm('Do you want to Delete?')" 
+                                           class="btn btn-danger btn-sm">Delete</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+{% include "Admin/Footer.html" %}

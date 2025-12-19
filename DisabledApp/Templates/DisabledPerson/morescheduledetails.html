@@ -1,0 +1,126 @@
+{% load static %}
+{% include "DisabledPerson/Header.html" %}
+
+<section class="ftco-section bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="wrapper">
+                    <div class="row no-gutters">
+                        <div class="col-lg-8 col-md-7 order-md-last d-flex align-items-stretch">
+                            <div class="contact-wrap w-100 p-md-5 p-4">
+                                <h3 class="mb-4">Schedule Details</h3>
+                                <div id="form-message-warning" class="mb-4"></div>
+
+                                <form action="" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+
+                                    <div class="row">
+                                        <!-- Name -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="label" for="name">Name</label>
+                                                <input type="text" class="form-control" value="{{ schedule.enquiryid.personid.personname }}" name="name" placeholder="Name" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Enquiry -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="label" for="contactno">Enquiry</label>
+                                                <input type="text" class="form-control" value="{{ schedule.enquiryid.enquiry }}" name="contactno" placeholder="Enquiry" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Scheduled Date -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="label" for="scheduledate">Scheduled Date</label>
+                                                <input type="text" class="form-control" value="{{ schedule.scheduledate }}" name="scheduledate" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Institution Name -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="label" for="institutionname">Institution Name</label>
+                                                <input type="text" class="form-control" value="{{ schedule.enquiryid.institutionid.institutionname }}" name="institutionname" placeholder="Institution Name" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Reg Number -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="label" for="regnumber">Reg Number</label>
+                                                <input type="text" class="form-control" value="{{ schedule.enquiryid.institutionid.regnumber }}" name="regnumber" placeholder="Reg Number" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Contact No -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="label" for="institutioncontact">Contact No</label>
+                                                <input type="text" class="form-control" value="{{ schedule.enquiryid.institutionid.contactno }}" name="institutioncontact" placeholder="Institution Contact No" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Email -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="label" for="institutionemail">Email</label>
+                                                <input type="email" class="form-control" value="{{ schedule.enquiryid.institutionid.email }}" name="institutionemail" placeholder="Institution Email" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Description -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="label" for="institutiondesc">Description</label>
+                                                <input type="text" class="form-control" value="{{ schedule.enquiryid.institutionid.institutiondesc }}" name="institutiondesc" placeholder="Description" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Website URL -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="label" for="websiteurl">Website URL</label>
+                                                <input type="text" class="form-control" value="{{ schedule.enquiryid.institutionid.Websiteurl }}" name="websiteurl" placeholder="Website URL" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Category -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="label" for="category">Category</label>
+                                                <input type="text" class="form-control" value="{{ schedule.enquiryid.institutionid.categoryid.categoryname }}" name="category" placeholder="Category" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Location -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="label" for="location">Location</label>
+                                                <input type="text" class="form-control" value="{{ schedule.enquiryid.institutionid.locationid.locationname }}" name="location" placeholder="Location" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Institution Image -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="label" for="institutionimage">Institution Image</label>
+                                                <img src="{{ schedule.enquiryid.institutionid.institutionimage.url }}" alt="Institution Image" class="img-fluid">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include "DisabledPerson/Footer.html" %}
